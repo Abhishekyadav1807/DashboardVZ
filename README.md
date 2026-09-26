@@ -178,7 +178,7 @@ erDiagram
 
 | Setting | Value |
 | :--- | :--- |
-| **Build Command** | `npm install && npm run build --workspace=server` |
+| **Build Command** | `npm run build:server:render` |
 | **Start Command** | `npm run start --workspace=server` |
 
 **Environment variables:**

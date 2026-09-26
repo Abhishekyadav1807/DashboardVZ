@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: velozity-dashboard-api
+    runtime: node
+    plan: free
+    buildCommand: npm run build:server:render
+    startCommand: npm run start --workspace=server
+    envVars:
+      - key: NODE_ENV
+        value: production
