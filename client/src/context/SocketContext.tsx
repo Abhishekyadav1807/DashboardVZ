@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { io, Socket } from 'socket.io-client';
+import { SOCKET_URL } from '../config/env';
 import { useAuth } from './AuthContext';
 import { Activity, Notification, Task } from '../types';
 
@@ -40,7 +41,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
 
-    const s = io('http://localhost:4000', {
+    const s = io(SOCKET_URL, {
       auth: { token },
       withCredentials: true,
       transports: ['websocket', 'polling'],

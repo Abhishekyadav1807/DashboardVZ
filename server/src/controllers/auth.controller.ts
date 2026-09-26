@@ -1,23 +1,16 @@
 import { Request, Response } from 'express';
 import { loginSchema } from '../validators/auth.validator';
 import { AuthService } from '../services/auth.service';
-import { env } from '../config/env';
+import { refreshCookieOptions } from '../config/env';
 import { AppError } from '../utils/app-error';
 import { asyncHandler } from '../utils/async-handler';
 import { prisma } from '../config/database';
 
-const cookieOpts = {
-  httpOnly: true,
-  secure: env.COOKIE_SECURE,
-  sameSite: 'lax' as const,
-  path: '/api/v1/auth/refresh',
-};
-
 const setRefreshCookie = (res: Response, token: string) =>
-  res.cookie('refreshToken', token, { ...cookieOpts, maxAge: 7 * 24 * 60 * 60 * 1000 });
+  res.cookie('refreshToken', token, { ...refreshCookieOptions, maxAge: 7 * 24 * 60 * 60 * 1000 });
 
 const clearRefreshCookie = (res: Response) =>
-  res.clearCookie('refreshToken', cookieOpts);
+  res.clearCookie('refreshToken', refreshCookieOptions);
 
 export class AuthController {
   static login = asyncHandler(async (req: Request, res: Response) => {

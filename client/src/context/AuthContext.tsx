@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
+import { API_BASE_URL } from '../config/env';
 import { User, AuthService } from '../services/auth.service';
 import { ApiService } from '../services/api';
 
@@ -67,7 +68,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         // automatically because of the HttpOnly cookie!
         
         // Let's manually hit /refresh to get the access token first if we don't have one
-        const refreshResponse = await fetch('http://localhost:4000/api/v1/auth/refresh', {
+        const refreshResponse = await fetch(`${API_BASE_URL}/auth/refresh`, {
           method: 'POST',
           credentials: 'include',
         });
@@ -80,7 +81,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           // Now fetch user details
           // ApiService now has the token via the effect above (or we just manually fetch /me here)
           const headers = new Headers({ Authorization: `Bearer ${newToken}` });
-          const meResponse = await fetch('http://localhost:4000/api/v1/auth/me', { headers });
+          const meResponse = await fetch(`${API_BASE_URL}/auth/me`, { headers });
           if (meResponse.ok) {
             const meData = await meResponse.json();
             setUser(meData.data.user);

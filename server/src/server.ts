@@ -12,8 +12,11 @@ initSocket(server);
 // Start background cron scheduler for overdue tasks
 startOverdueTaskScheduler();
 
-server.listen(env.PORT, () => {
-  console.log(`✅  API server running on http://localhost:${env.PORT}`);
+const port = Number(process.env.PORT) || 4000;
+const host = '0.0.0.0';
+
+server.listen(port, host, () => {
+  console.log(`✅  API server running on http://${host}:${port}`);
   console.log(`    Environment : ${env.NODE_ENV}`);
   console.log(`    CORS origin : ${env.CLIENT_URL}`);
   console.log(`    WebSockets  : Socket.io enabled`);

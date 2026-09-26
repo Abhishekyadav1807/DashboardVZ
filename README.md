@@ -163,6 +163,73 @@ erDiagram
 
 ---
 
-## 7. Known Limitations & Production Enhancements
+## 7. Production Deployment (Vercel + Render)
+
+### Architecture
+| Component | Platform | Notes |
+| :--- | :--- | :--- |
+| Frontend | **Vercel** | Static Vite build from `client/` |
+| Backend API + Socket.io | **Render Web Service** | Express server bound to `0.0.0.0` |
+| Database | **Render PostgreSQL** | Prisma migrations applied manually |
+
+### Render — Web Service (Backend)
+
+**Root Directory:** repository root (monorepo)
+
+| Setting | Value |
+| :--- | :--- |
+| **Build Command** | `npm install && npm run build --workspace=server` |
+| **Start Command** | `npm run start --workspace=server` |
+
+**Environment variables:**
+
+| Variable | Example / Notes |
+| :--- | :--- |
+| `DATABASE_URL` | Render Internal/External URL with `?sslmode=require` |
+| `JWT_ACCESS_SECRET` | ≥ 32 random characters |
+| `JWT_REFRESH_SECRET` | ≥ 32 random characters (different from access) |
+| `ACCESS_TOKEN_EXPIRES_IN` | `15m` |
+| `REFRESH_TOKEN_EXPIRES_IN` | `7d` |
+| `CLIENT_URL` | `https://your-app.vercel.app` (exact Vercel origin, no trailing slash) |
+| `COOKIE_SECURE` | `true` |
+| `NODE_ENV` | `production` |
+| `PORT` | Set automatically by Render — do not override |
+
+**Database migrations (run once after creating the database, before first traffic):**
+```bash
+cd server
+npx prisma migrate deploy
+```
+
+**Seed demo data (run manually once — not on every deploy):**
+```bash
+cd server
+npm run prisma:seed
+```
+
+### Vercel — Frontend
+
+| Setting | Value |
+| :--- | :--- |
+| **Framework Preset** | Vite |
+| **Root Directory** | repository root (uses `vercel.json`) |
+| **Build Command** | `npm run build --workspace=client` |
+| **Output Directory** | `client/dist` |
+| **Install Command** | `npm install` |
+
+**Environment variables:**
+
+| Variable | Example / Notes |
+| :--- | :--- |
+| `VITE_API_URL` | `https://your-app.onrender.com` (Render backend origin, no trailing slash) |
+
+### Cross-Origin Auth Notes
+- The API uses `CLIENT_URL` for CORS (credentials enabled) and Socket.io origin allowlisting.
+- Refresh tokens remain **HttpOnly** cookies with **Secure** + **SameSite=None** in production so the Vercel frontend can authenticate against the Render backend.
+- Access tokens stay in memory only — never in `localStorage`.
+
+---
+
+## 8. Known Limitations & Production Enhancements
 1. **Multi-Node WebSocket Scaling:** In an auto-scaling cluster with multiple server instances, Socket.io rooms require `@socket.io/redis-adapter` for cross-node event propagation.
 2. **File Attachments:** Task deliverables and client specification documents currently support URL links and markdown notes; direct S3/Cloudflare R2 multipart uploads could be added.

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useSocket } from '../context/SocketContext';
+import { AuthService } from '../services/auth.service';
 import { NotificationService } from '../services/api.services';
 import { Notification } from '../types';
 import { Bell, User as UserIcon, LogOut, CheckCheck, Radio } from 'lucide-react';
@@ -71,18 +72,10 @@ export const Navbar = () => {
 
   const handleQuickSwitch = async (email: string) => {
     try {
-      const res = await fetch('http://localhost:4000/api/v1/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password: 'Password123!' }),
-        credentials: 'include',
-      });
-      if (res.ok) {
-        const data = await res.json();
-        login(data.data.accessToken, data.data.user);
-        setShowRoleSwitcher(false);
-        window.location.reload();
-      }
+      const data = await AuthService.login(email, 'Password123!');
+      login(data.data.accessToken, data.data.user);
+      setShowRoleSwitcher(false);
+      window.location.reload();
     } catch (err) {
       console.error('Quick switch failed', err);
     }

@@ -36,3 +36,15 @@ if (!parsed.success) {
 }
 
 export const env = parsed.data;
+
+/**
+ * Refresh-token cookie options.
+ * Cross-site production (Vercel frontend + Render backend) requires
+ * SameSite=None with Secure=true so the browser sends the HttpOnly cookie.
+ */
+export const refreshCookieOptions = {
+  httpOnly: true as const,
+  secure: env.COOKIE_SECURE,
+  sameSite: (env.COOKIE_SECURE ? 'none' : 'lax') as 'none' | 'lax',
+  path: '/api/v1/auth/refresh',
+};
