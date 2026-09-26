@@ -1,0 +1,294 @@
+/*
+ * Velozity Dashboard — Global CSS
+ *
+ * Design principles:
+ *  - Internal tool aesthetic: high information density, no decorative noise.
+ *  - CSS custom properties for every token so components never use raw values.
+ *  - System font stack + Inter for legibility at small sizes.
+ *  - Dark theme by default; light theme variant planned for a later phase.
+ *
+ * Structure:
+ *  1. CSS custom properties (design tokens)
+ *  2. Reset / base
+ *  3. Typography scale
+ *  4. Layout utilities
+ *  5. Form elements
+ *  6. Badges / status indicators
+ *  7. Scrollbars
+ */
+
+/* ── 1. Design tokens ─────────────────────────────────────────────────────── */
+:root {
+  /* Surface colours */
+  --color-bg:            #0f1117;
+  --color-surface:       #181b23;
+  --color-surface-2:     #1e2230;
+  --color-border:        #262b38;
+  --color-border-subtle: #1c2030;
+
+  /* Text */
+  --color-text-primary:   #e8eaf0;
+  --color-text-secondary: #8b92a8;
+  --color-text-muted:     #565d74;
+
+  /* Brand */
+  --color-brand:       #4f7ef8;
+  --color-brand-hover: #6690fa;
+  --color-brand-dim:   rgba(79, 126, 248, 0.12);
+
+  /* Semantic status colours */
+  --color-success:  #34c97b;
+  --color-warning:  #f0a832;
+  --color-danger:   #f05252;
+  --color-info:     #4f7ef8;
+
+  /* Status — task */
+  --color-todo:        #565d74;
+  --color-in-progress: #4f7ef8;
+  --color-in-review:   #c97bf0;
+  --color-done:        #34c97b;
+
+  /* Priority */
+  --color-low:      #34c97b;
+  --color-medium:   #f0a832;
+  --color-high:     #f07532;
+  --color-critical: #f05252;
+
+  /* Spacing scale (4-point) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+
+  --text-xs:   0.6875rem; /* 11px */
+  --text-sm:   0.8125rem; /* 13px */
+  --text-base: 0.9375rem; /* 15px */
+  --text-lg:   1.0625rem; /* 17px */
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  1.875rem;
+
+  --font-normal:   400;
+  --font-medium:   500;
+  --font-semibold: 600;
+  --font-bold:     700;
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+
+  /* Sidebar */
+  --sidebar-width: 220px;
+
+  /* Topnav */
+  --topnav-height: 52px;
+
+  /* Transitions */
+  --transition-fast: 120ms ease;
+  --transition-base: 200ms ease;
+}
+
+/* ── 2. Reset / base ──────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--font-normal);
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+}
+
+a {
+  color: var(--color-brand);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-brand-hover);
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+/* ── 3. Typography utilities ─────────────────────────────────────────────── */
+.text-xs  { font-size: var(--text-xs); }
+.text-sm  { font-size: var(--text-sm); }
+.text-base { font-size: var(--text-base); }
+.text-lg  { font-size: var(--text-lg); }
+.text-xl  { font-size: var(--text-xl); }
+
+.font-medium   { font-weight: var(--font-medium); }
+.font-semibold { font-weight: var(--font-semibold); }
+.font-bold     { font-weight: var(--font-bold); }
+
+.text-primary   { color: var(--color-text-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-muted     { color: var(--color-text-muted); }
+.text-brand     { color: var(--color-brand); }
+.text-danger    { color: var(--color-danger); }
+.text-success   { color: var(--color-success); }
+.text-warning   { color: var(--color-warning); }
+
+/* ── 4. Layout utilities ─────────────────────────────────────────────────── */
+.flex        { display: flex; }
+.flex-col    { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-1 { gap: var(--space-1); }
+.gap-2 { gap: var(--space-2); }
+.gap-3 { gap: var(--space-3); }
+.gap-4 { gap: var(--space-4); }
+
+.w-full { width: 100%; }
+
+/* ── 5. Form elements ────────────────────────────────────────────────────── */
+.input {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  transition: border-color var(--transition-fast);
+  outline: none;
+}
+
+.input:focus {
+  border-color: var(--color-brand);
+}
+
+.input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  line-height: 1.5;
+  transition: background-color var(--transition-fast), opacity var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--color-brand);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--color-brand-hover);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.btn-ghost:hover {
+  background: var(--color-surface-2);
+  color: var(--color-text-primary);
+}
+
+.btn-danger {
+  background: var(--color-danger);
+  color: #fff;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── 6. Badges ───────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  line-height: 1.6;
+}
+
+.badge-todo        { background: rgba(86,93,116,0.2);   color: var(--color-todo);        }
+.badge-in-progress { background: rgba(79,126,248,0.15); color: var(--color-in-progress); }
+.badge-in-review   { background: rgba(201,123,240,0.15); color: var(--color-in-review);  }
+.badge-done        { background: rgba(52,201,123,0.15); color: var(--color-done);        }
+
+.badge-low      { background: rgba(52,201,123,0.15);  color: var(--color-low);      }
+.badge-medium   { background: rgba(240,168,50,0.15);  color: var(--color-medium);   }
+.badge-high     { background: rgba(240,117,50,0.15);  color: var(--color-high);     }
+.badge-critical { background: rgba(240,82,82,0.15);   color: var(--color-critical); }
+
+/* ── 7. Scrollbars ───────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}

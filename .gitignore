@@ -1,0 +1,44 @@
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+build/
+**/dist/
+**/build/
+
+# Test coverage
+coverage/
+**/coverage/
+
+# Prisma generated client (generated at deploy/migration time)
+server/src/generated/
+
+# TypeScript incremental compilation cache
+*.tsbuildinfo
+**/*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Editor directories
+.vscode/
+.idea/
+
+# Vite cache
+**/.vite/
+
+# npm pack output
+*.tgz

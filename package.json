@@ -1,0 +1,20 @@
+{
+  "name": "velozity-dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Root workspace orchestrator for Velozity Dashboard (server + client)",
+  "scripts": {
+    "dev": "concurrently --names \"server,client\" --prefix-colors \"cyan,magenta\" \"npm run dev --workspace=server\" \"npm run dev --workspace=client\"",
+    "build": "npm run build --workspace=server && npm run build --workspace=client",
+    "typecheck": "npm run typecheck --workspace=server && npm run typecheck --workspace=client",
+    "test": "npm run test --workspace=server",
+    "lint": "npm run lint --workspace=server && npm run lint --workspace=client"
+  },
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "devDependencies": {
+    "concurrently": "^9.0.1"
+  }
+}
